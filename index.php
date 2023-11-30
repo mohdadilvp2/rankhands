@@ -64,7 +64,7 @@ function processFile($filePath)
 function displayError($errorMessage)
 {
     echo "Error: $errorMessage" . PHP_EOL;
-    echo "Usage: php run.php path/to/input/file.txt" . PHP_EOL;
+    echo "Usage: php index.php path/to/input/file.txt" . PHP_EOL;
 }
 
 // Run the poker hands application with command line arguments
