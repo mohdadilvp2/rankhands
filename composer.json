@@ -1,0 +1,21 @@
+{
+    "name": "mohdadilvp2/rankhands",
+    "description": "Poker rank hand.",
+    "type": "library",
+    "keywords": ["poker"],
+    "homepage": "https://github.com/mohdadilvp2/rankhands",
+    "authors": [{
+        "name": "Adil",
+        "email": "mohdadilvp@gmail.com",
+        "role": "Developer"
+    }],
+    "autoload": {
+        "psr-4": {
+            "Adil\\RankHands\\": "src/",
+            "Adil\\Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.4"
+    }
+}
