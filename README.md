@@ -9,7 +9,7 @@ This PHP application is a rule engine that determines the rank of Texas Hold’e
 
 ### Prerequisites
 
-- PHP 8.1 or later
+- PHP 8.0 or later
 ### Install
 
 
