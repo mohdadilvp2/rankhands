@@ -1,31 +1,71 @@
 <?php
 /**
  * @file
- * run.php.
+ * index.php
  */
-use \Adil\RankHands\HandEvaluator;
+
+use Adil\RankHands\HandEvaluator;
+
+// Autoload dependencies
 $loader = require 'vendor/autoload.php';
-$loader->register();
 
+/**
+ * Main function to run the poker hands ranking application.
+ */
+function runPokerHandsApp(array $arguments)
+{
+    // Check if the command line argument is provided
+    if (count($arguments) !== 2) {
+        displayError("Please provide the path to the file containing input data as a command line argument.");
+        exit(1);
+    }
 
-// Check if the command line argument is provided
-if (isset($argv[1])) {
     // Get the file path from the command line argument
-    $filePath = $argv[1];
+    $filePath = $arguments[1];
+
+    // Validate and rank hands
+    processFile($filePath);
+}
+
+/**
+ * Process the file, validate the input, and rank hands.
+ *
+ * @param string $filePath
+ */
+function processFile($filePath)
+{
 
     // Check if the file exists
-    if (file_exists($filePath)) {
-        // Read the content of the file
-        $handString = file_get_contents($filePath);
+    if (!file_exists($filePath)) {
+        displayError("Error: The specified file does not exist.");
+        exit(1);
+    }
 
+    // Read the content of the file
+    $handString = file_get_contents($filePath);
+
+    try {
         // Create an instance of HandEvaluator with the input data
         $handEvaluator = new HandEvaluator($handString);
 
         // Rank hands and output the result
         echo $handEvaluator->rankHands();
-    } else {
-        echo "Error: The specified file does not exist." . PHP_EOL;
+    } catch (Exception $e) {
+        displayError("Invalid input data. Error Message: " . $e->getMessage());
+        exit(1);
     }
-} else {
-    echo "Error: Please provide the path to the file containing input data as a command line argument." . PHP_EOL;
 }
+
+/**
+ * Display error message and usage information.
+ *
+ * @param string $errorMessage
+ */
+function displayError($errorMessage)
+{
+    echo "Error: $errorMessage" . PHP_EOL;
+    echo "Usage: php run.php path/to/input/file.txt" . PHP_EOL;
+}
+
+// Run the poker hands application with command line arguments
+runPokerHandsApp($argv);
