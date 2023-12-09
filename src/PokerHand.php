@@ -124,39 +124,40 @@ class PokerHand
         $cardRanks = $this->getCardRanksInNumbers();
         rsort($cardRanks);
         $handType = $this->handType;
+        $cardOccurrences = array_count_values($cardRanks);
 
         switch ($handType) {
             case PokerHandConstants::StraightFlush:
                 $this->firstHighestCardRank = $cardRanks[0];
                 break;
             case PokerHandConstants::FourOfAKind:
-                $this->firstHighestCardRank = array_search(4, array_count_values($cardRanks));
-                $this->secondHighestCardRank = array_search(1, array_count_values($cardRanks));
+                $this->firstHighestCardRank = array_search(4, $cardOccurrences);
+                $this->secondHighestCardRank = array_search(1, $cardOccurrences);
                 break;
             case PokerHandConstants::FullHouse:
-                $this->firstHighestCardRank = array_search(3, array_count_values($cardRanks));
-                $this->secondHighestCardRank = array_search(2, array_count_values($cardRanks));
+                $this->firstHighestCardRank = array_search(3, $cardOccurrences);
+                $this->secondHighestCardRank = array_search(2, $cardOccurrences);
                 break;
             case PokerHandConstants::Straight:
                 $this->firstHighestCardRank = $cardRanks[0];
                 break;
             case PokerHandConstants::ThreeOfAKind:
-                $this->firstHighestCardRank = array_search(3, array_count_values($cardRanks));
+                $this->firstHighestCardRank = array_search(3, $cardOccurrences);
                 $restOfTheCardRanks = array_values(array_diff($cardRanks, [$this->firstHighestCardRank, $this->firstHighestCardRank, $this->firstHighestCardRank]));
                 $this->secondHighestCardRank = $restOfTheCardRanks[0];
                 $this->thirdHighestCardRank = $restOfTheCardRanks[1];
                 break;
             case PokerHandConstants::TwoPair:
-                $cardRanksOccurringTwice = array_keys(array_filter(array_count_values($cardRanks), fn ($count) => $count === 2));
+                $cardRanksOccurringTwice = array_keys(array_filter($cardOccurrences, function ($count) {return $count === 2;}));
                 rsort($cardRanksOccurringTwice);
                 $this->firstHighestCardRank = $cardRanksOccurringTwice[0];
                 $this->secondHighestCardRank = $cardRanksOccurringTwice[1];
-                $this->thirdHighestCardRank = array_search(1, array_count_values($cardRanks));
+                $this->thirdHighestCardRank = array_search(1, $cardOccurrences);
                 break;
             case PokerHandConstants::Pair:
-                $cardRanksOccurringTwice = array_keys(array_filter(array_count_values($cardRanks), fn ($count) => $count === 2));
-                rsort($cardRanksOccurringTwice);
+                $cardRanksOccurringTwice = array_keys(array_filter($cardOccurrences, function ($count) { return $count === 2;}));
                 $restOfTheCardRanks = array_values(array_diff($cardRanks, [$cardRanksOccurringTwice[0], $cardRanksOccurringTwice[0]]));
+                rsort($restOfTheCardRanks);
                 $this->firstHighestCardRank = $cardRanksOccurringTwice[0];
                 $this->secondHighestCardRank = $restOfTheCardRanks[0];
                 $this->thirdHighestCardRank = $restOfTheCardRanks[1];
