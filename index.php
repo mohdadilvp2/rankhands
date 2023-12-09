@@ -7,7 +7,7 @@
 use Adil\RankHands\HandEvaluator;
 
 // Autoload dependencies
-$loader = require 'vendor/autoload.php';
+require 'vendor/autoload.php';
 
 /**
  * Main function to run the poker hands ranking application.

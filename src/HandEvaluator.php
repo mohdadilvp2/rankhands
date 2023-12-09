@@ -15,7 +15,7 @@ class HandEvaluator
     /**
      * @var string
      */
-    private $handString;
+    private string $handString;
 
     /**
      * HandEvaluator constructor.
@@ -39,50 +39,6 @@ class HandEvaluator
         $hands = $this->replaceSymbolsWithCharacter($hands);
         $hands = $this->orderHands($hands);
         return implode(PHP_EOL, $this->replaceCharacterWithSymbols($hands));
-    }
-
-    /**
-     * Validates the format of each hand in the input string.
-     *
-     * @throws Exception If any invalid card count, rank, or suit is found.
-     */
-    private function validateHandString(): void
-    {
-        $hands = $this->getHandsArray();
-        $hands = $this->replaceSymbolsWithCharacter($hands);
-
-        foreach ($hands as $key => $hand) {
-            $cards = explode(" ", trim($hand));
-
-            // Validate card count in the hand
-            if (count($cards) != 5) {
-                throw new Exception("Invalid card count in the row: " . ($key + 1));
-            }
-
-            // Validate card ranks
-            $ranks = array_map(function ($card) {
-                return substr($card, 0, -1);
-            }, $cards);
-
-            $validRanks = array_keys(PokerHandConstants::CARD_ORDER);
-            $invalidRanks = array_diff($ranks, $validRanks);
-
-            if (count($invalidRanks) > 0) {
-                throw new Exception("Invalid card rank found in the row: " . ($key + 1));
-            }
-
-            // Validate card suits
-            $validSuits = array_values(PokerHandConstants::SYMBOL_TO_STRING);
-            $suits = array_map(function ($card) {
-                return substr($card, -1);
-            }, $cards);
-
-            $invalidSuits = array_diff($suits, $validSuits);
-
-            if (count($invalidSuits) > 0) {
-                throw new Exception("Invalid card suit found in the row: " . ($key + 1));
-            }
-        }
     }
 
     /**
@@ -126,13 +82,9 @@ class HandEvaluator
      */
     private function replaceSymbols(array $hands, array $mapping): array
     {
-        foreach ($hands as $key => $hand) {
-            foreach ($mapping as $symbol => $replacement) {
-                $hand = strtr($hand, [$symbol => $replacement]);
-            }
-            $hands[$key] = $hand;
-        }
-        return $hands;
+        return array_map(function($hand) use ($mapping){
+            return  strtr($hand, $mapping);
+        }, $hands);
     }
 
     /**
@@ -180,5 +132,48 @@ class HandEvaluator
         });
         // Extract and return the hands from the ordered array
         return array_column($handsAfterRanking, 'hand');
+    }
+
+    /**
+     * Validates the format of each hand in the input string.
+     *
+     * @throws Exception If any invalid card count, rank, or suit is found.
+     */
+    private function validateHandString(): void
+    {
+        $hands = $this->getHandsArray();
+        $hands = $this->replaceSymbolsWithCharacter($hands);
+
+        foreach ($hands as $key => $hand) {
+            $cards = explode(" ", trim($hand));
+
+            // Validate card count in the hand
+            if (count($cards) != 5) {
+                throw new Exception("Invalid card count in the row: " . ($key + 1));
+            }
+
+            // Validate card ranks
+            $ranks = array_map(function ($card) {
+                return substr($card, 0, -1);
+            }, $cards);
+            $validRanks = array_keys(PokerHandConstants::CARD_ORDER);
+            $invalidRanks = array_diff($ranks, $validRanks);
+
+            if (count($invalidRanks) > 0) {
+                throw new Exception("Invalid card rank found in the row: " . ($key + 1));
+            }
+
+            // Validate card suits
+            $validSuits = array_values(PokerHandConstants::SYMBOL_TO_STRING);
+            $suits = array_map(function ($card) {
+                return substr($card, -1);
+            }, $cards);
+
+            $invalidSuits = array_diff($suits, $validSuits);
+
+            if (count($invalidSuits) > 0) {
+                throw new Exception("Invalid card suit found in the row: " . ($key + 1));
+            }
+        }
     }
 }

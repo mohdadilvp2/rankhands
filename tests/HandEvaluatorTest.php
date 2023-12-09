@@ -35,7 +35,21 @@ class HandEvaluatorTest extends TestCase
         4♣ 4♠ 3♣ 3♦ Q♣
         A♦ K♦ Q♦ J♦ 10♦';
 
-        $expectedOut = trim("A♦ K♦ Q♦ J♦ 10♦\n8♣ 7♣ 6♣ 5♣ 4♣\nJ♥ J♦ J♠ J♣ 7♦\n10♥ 10♦ 10♠ 9♣ 9♦\n10♥ 10♣ 10♦ 8♥ 8♣\n4♠ J♠ 8♠ 2♠ 9♠\n9♣ 8♦ 7♠ 6♦ 5♥\n7♣ 7♦ 7♠ K♣ 3♦\n9♣ 9♥ 2♣ 2♦ J♣\n4♣ 4♠ 3♣ 3♦ Q♣\nA♥ A♦ K♣ 4♠ 7♥\nA♥ A♦ 8♣ 4♠ 7♥\n3♦ J♣ 8♠ 4♥ 2♠");
+        $expectedOut = implode(PHP_EOL, array_map('trim', explode(PHP_EOL, "
+        A♦ K♦ Q♦ J♦ 10♦
+        8♣ 7♣ 6♣ 5♣ 4♣
+        J♥ J♦ J♠ J♣ 7♦
+        10♥ 10♦ 10♠ 9♣ 9♦
+        10♥ 10♣ 10♦ 8♥ 8♣
+        4♠ J♠ 8♠ 2♠ 9♠
+        9♣ 8♦ 7♠ 6♦ 5♥
+        7♣ 7♦ 7♠ K♣ 3♦
+        9♣ 9♥ 2♣ 2♦ J♣
+        4♣ 4♠ 3♣ 3♦ Q♣
+        A♥ A♦ K♣ 4♠ 7♥
+        A♥ A♦ 8♣ 4♠ 7♥
+        3♦ J♣ 8♠ 4♥ 2♠
+        ")));
 
         $evaluator = new HandEvaluator($input);
         $out = $evaluator->rankHands();
