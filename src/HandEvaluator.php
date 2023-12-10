@@ -105,14 +105,14 @@ class HandEvaluator
                 'hand' => trim($hand),
                 'base_rank' => $pokerHand->getBaseRank(),
                 'hand_type' => $pokerHand->getHandType(),
-                'sencondary_checks' => $pokerHand->getHighestCardRanks()
+                'sencondary_checks' => $pokerHand->getHighestCardScores()
             ];
         }
 
         // Use usort to sort hands based on base rank and secondary checks
         usort($handsAfterRanking, function ($a, $b) {
             // Compare base ranks
-            $baseRankComparison = $b['base_rank'] <=> $a['base_rank'];
+            $baseRankComparison = $a['base_rank'] <=> $b['base_rank'];
             if ($baseRankComparison !== 0) {
                 return $baseRankComparison;
             }
@@ -121,7 +121,7 @@ class HandEvaluator
             $secondaryChecksA = $a['sencondary_checks'];
             $secondaryChecksB = $b['sencondary_checks'];
             foreach (['first', 'second', 'third', 'fourth', 'fifth'] as $ordinal) {
-                $cardComparison = $secondaryChecksB[$ordinal . '_highest_card_rank'] <=> $secondaryChecksA[$ordinal . '_highest_card_rank'];
+                $cardComparison = $secondaryChecksB[$ordinal . '_highest_card_score'] <=> $secondaryChecksA[$ordinal . '_highest_card_score'];
                 if ($cardComparison !== 0) {
                     return $cardComparison;
                 }

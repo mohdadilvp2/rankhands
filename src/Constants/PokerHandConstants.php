@@ -27,16 +27,16 @@ class PokerHandConstants
      * Base rank array for each hand type.
      */
     public const BASE_RANK_ARRAY = [
-        self::RoyalFlush => 10,
-        self::StraightFlush => 9,
-        self::FourOfAKind => 8,
-        self::FullHouse => 7,
-        self::Flush => 6,
-        self::Straight => 5,
-        self::ThreeOfAKind => 4,
-        self::TwoPair => 3,
-        self::Pair => 2,
-        self::HighCard => 1
+        self::RoyalFlush => 1,
+        self::StraightFlush => 2,
+        self::FourOfAKind => 3,
+        self::FullHouse => 4,
+        self::Flush => 5,
+        self::Straight => 6,
+        self::ThreeOfAKind => 7,
+        self::TwoPair => 8,
+        self::Pair => 9,
+        self::HighCard => 10
     ];
 
     /**

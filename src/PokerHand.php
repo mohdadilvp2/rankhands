@@ -24,11 +24,11 @@ class PokerHand
     private array $cards;
     private ?int $baseRank = null;
     private ?string $handType = null;
-    private ?int $firstHighestCardRank = null;
-    private ?int $secondHighestCardRank = null;
-    private ?int $thirdHighestCardRank = null;
-    private ?int $fourthHighestCardRank = null;
-    private ?int $fifthHighestCardRank = null;
+    private ?int $firstHighestCardScore = null;
+    private ?int $secondHighestCardScore = null;
+    private ?int $thirdHighestCardScore = null;
+    private ?int $fourthHighestCardScore = null;
+    private ?int $fifthHighestCardScore = null;
 
     /**
      * PokerHand constructor.
@@ -43,18 +43,18 @@ class PokerHand
     }
 
     /**
-     * Get the highest card ranks.
+     * Get the highest card scores.
      *
      * @return array
      */
-    public function getHighestCardRanks(): array
+    public function getHighestCardScores(): array
     {
         $ranks = [
-            'first_highest_card_rank' => $this->firstHighestCardRank,
-            'second_highest_card_rank' => $this->secondHighestCardRank,
-            'third_highest_card_rank' => $this->thirdHighestCardRank,
-            'fourth_highest_card_rank' => $this->fourthHighestCardRank,
-            'fifth_highest_card_rank' => $this->fifthHighestCardRank,
+            'first_highest_card_score' => $this->firstHighestCardScore,
+            'second_highest_card_score' => $this->secondHighestCardScore,
+            'third_highest_card_score' => $this->thirdHighestCardScore,
+            'fourth_highest_card_score' => $this->fourthHighestCardScore,
+            'fifth_highest_card_score' => $this->fifthHighestCardScore,
         ];
         return $ranks;
     }
@@ -117,7 +117,7 @@ class PokerHand
     }
 
     /**
-     * Set the highest card ranks based on the hand type.
+     * Set the highest card scores based on the hand type.
      */
     private function setHighestCardRanks(): void
     {
@@ -128,48 +128,48 @@ class PokerHand
 
         switch ($handType) {
             case PokerHandConstants::StraightFlush:
-                $this->firstHighestCardRank = $cardRanks[0];
+                $this->firstHighestCardScore = $cardRanks[0];
                 break;
             case PokerHandConstants::FourOfAKind:
-                $this->firstHighestCardRank = array_search(4, $cardOccurrences);
-                $this->secondHighestCardRank = array_search(1, $cardOccurrences);
+                $this->firstHighestCardScore = array_search(4, $cardOccurrences);
+                $this->secondHighestCardScore = array_search(1, $cardOccurrences);
                 break;
             case PokerHandConstants::FullHouse:
-                $this->firstHighestCardRank = array_search(3, $cardOccurrences);
-                $this->secondHighestCardRank = array_search(2, $cardOccurrences);
+                $this->firstHighestCardScore = array_search(3, $cardOccurrences);
+                $this->secondHighestCardScore = array_search(2, $cardOccurrences);
                 break;
             case PokerHandConstants::Straight:
-                $this->firstHighestCardRank = $cardRanks[0];
+                $this->firstHighestCardScore = $cardRanks[0];
                 break;
             case PokerHandConstants::ThreeOfAKind:
-                $this->firstHighestCardRank = array_search(3, $cardOccurrences);
-                $restOfTheCardRanks = array_values(array_diff($cardRanks, [$this->firstHighestCardRank, $this->firstHighestCardRank, $this->firstHighestCardRank]));
-                $this->secondHighestCardRank = $restOfTheCardRanks[0];
-                $this->thirdHighestCardRank = $restOfTheCardRanks[1];
+                $this->firstHighestCardScore = array_search(3, $cardOccurrences);
+                $restOfTheCardRanks = array_values(array_diff($cardRanks, [$this->firstHighestCardScore, $this->firstHighestCardScore, $this->firstHighestCardScore]));
+                $this->secondHighestCardScore = $restOfTheCardRanks[0];
+                $this->thirdHighestCardScore = $restOfTheCardRanks[1];
                 break;
             case PokerHandConstants::TwoPair:
                 $cardRanksOccurringTwice = array_keys(array_filter($cardOccurrences, function ($count) {return $count === 2;}));
                 rsort($cardRanksOccurringTwice);
-                $this->firstHighestCardRank = $cardRanksOccurringTwice[0];
-                $this->secondHighestCardRank = $cardRanksOccurringTwice[1];
-                $this->thirdHighestCardRank = array_search(1, $cardOccurrences);
+                $this->firstHighestCardScore = $cardRanksOccurringTwice[0];
+                $this->secondHighestCardScore = $cardRanksOccurringTwice[1];
+                $this->thirdHighestCardScore = array_search(1, $cardOccurrences);
                 break;
             case PokerHandConstants::Pair:
                 $cardRanksOccurringTwice = array_keys(array_filter($cardOccurrences, function ($count) { return $count === 2;}));
                 $restOfTheCardRanks = array_values(array_diff($cardRanks, [$cardRanksOccurringTwice[0], $cardRanksOccurringTwice[0]]));
                 rsort($restOfTheCardRanks);
-                $this->firstHighestCardRank = $cardRanksOccurringTwice[0];
-                $this->secondHighestCardRank = $restOfTheCardRanks[0];
-                $this->thirdHighestCardRank = $restOfTheCardRanks[1];
-                $this->fourthHighestCardRank = $restOfTheCardRanks[2];
+                $this->firstHighestCardScore = $cardRanksOccurringTwice[0];
+                $this->secondHighestCardScore = $restOfTheCardRanks[0];
+                $this->thirdHighestCardScore = $restOfTheCardRanks[1];
+                $this->fourthHighestCardScore = $restOfTheCardRanks[2];
                 break;
             case PokerHandConstants::Flush:
             case PokerHandConstants::HighCard:
-                $this->firstHighestCardRank = $cardRanks[0];
-                $this->secondHighestCardRank = $cardRanks[1];
-                $this->thirdHighestCardRank = $cardRanks[2];
-                $this->fourthHighestCardRank = $cardRanks[3];
-                $this->fifthHighestCardRank = $cardRanks[4];
+                $this->firstHighestCardScore = $cardRanks[0];
+                $this->secondHighestCardScore = $cardRanks[1];
+                $this->thirdHighestCardScore = $cardRanks[2];
+                $this->fourthHighestCardScore = $cardRanks[3];
+                $this->fifthHighestCardScore = $cardRanks[4];
                 break;
         }
     }
@@ -187,7 +187,7 @@ class PokerHand
     }
 
     /**
-     * Get the card ranks in numbers.
+     * Get the card score in numbers.
      *
      * @return array
      */
