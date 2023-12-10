@@ -39,7 +39,7 @@ class PokerHand
     {
         $this->cards = explode(" ", $cards);
         $this->calculateBaseRank();
-        $this->setHighestCardRanks();
+        $this->setHighestCardScores();
     }
 
     /**
@@ -119,7 +119,7 @@ class PokerHand
     /**
      * Set the highest card scores based on the hand type.
      */
-    private function setHighestCardRanks(): void
+    private function setHighestCardScores(): void
     {
         $cardScores = $this->getCardScores();
         rsort($cardScores);
