@@ -131,10 +131,14 @@ class PokerHand
                 $this->firstHighestCardScore = $cardScores[0];
                 break;
             case PokerHandConstants::FourOfAKind:
+                // For Four of a Kind, the highest card is the one occurring four times,
+                // and the second highest is the one occurring once
                 $this->firstHighestCardScore = array_search(4, $cardOccurrences);
                 $this->secondHighestCardScore = array_search(1, $cardOccurrences);
                 break;
             case PokerHandConstants::FullHouse:
+                // For a Full House, the highest card is the one occurring three times,
+                // and the second highest is the one occurring twice
                 $this->firstHighestCardScore = array_search(3, $cardOccurrences);
                 $this->secondHighestCardScore = array_search(2, $cardOccurrences);
                 break;
@@ -142,12 +146,17 @@ class PokerHand
                 $this->firstHighestCardScore = $cardScores[0];
                 break;
             case PokerHandConstants::ThreeOfAKind:
+                // For Three of a Kind, the highest card is the one occurring three times,
+                // and the second and third highest are the remaining two cards
                 $this->firstHighestCardScore = array_search(3, $cardOccurrences);
                 $restOfTheCardScores = array_values(array_diff($cardScores, [$this->firstHighestCardScore]));
+                rsort($restOfTheCardScores);
                 $this->secondHighestCardScore = $restOfTheCardScores[0];
                 $this->thirdHighestCardScore = $restOfTheCardScores[1];
                 break;
             case PokerHandConstants::TwoPair:
+                // For Two Pair, the highest and second highest cards are those occurring twice,
+                // and the third highest is the one occurring once
                 $cardScoresOccurringTwice = array_keys(array_filter($cardOccurrences, function ($count) {
                     return $count === 2;
                 }));
@@ -157,6 +166,8 @@ class PokerHand
                 $this->thirdHighestCardScore = array_search(1, $cardOccurrences);
                 break;
             case PokerHandConstants::Pair:
+                // For a Pair, the highest card is the one occurring twice,
+                // and the second, third, and fourth highest are the remaining three cards
                 $this->firstHighestCardScore = array_search(2, $cardOccurrences);
                 $restOfTheCardScores = array_values(array_diff($cardScores, [$this->firstHighestCardScore]));
                 rsort($restOfTheCardScores);
