@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="tests/bootstrap.php" colors="true" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.4/phpunit.xsd" cacheDirectory=".phpunit.cache">
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="tests/bootstrap.php" colors="true" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.4/phpunit.xsd" >
   <coverage/>
   <php>
     <!-- Set error reporting to E_ALL. -->
@@ -14,10 +14,4 @@
       <exclude>./vendor</exclude>
     </testsuite>
   </testsuites>
-  <!-- Filter for coverage reports. -->
-  <source>
-    <include>
-      <directory>src</directory>
-    </include>
-  </source>
 </phpunit>

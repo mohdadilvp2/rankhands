@@ -23,8 +23,8 @@ class StraightFlush extends AbstractHandType
     public function isMatch(): bool
     {
         $suits = $this->pokerHand->getSuits();
-        $cardRanksInNumbers = $this->pokerHand->getCardRanksInNumbers();
-        return $this->isFlush($suits) && $this->isStraight($cardRanksInNumbers);
+        $cardScores = $this->pokerHand->getCardScores();
+        return $this->isFlush($suits) && $this->isStraight($cardScores);
     }
 
     /**

@@ -35,15 +35,15 @@ trait HandMatchingTrait
     }
 
     /**
-     * Check if the given card ranks in numbers form a straight sequence.
+     * Check if the given card score form a straight sequence.
      *
-     * @param array $cardRanksInNumbers
+     * @param array $cardScores
      * @return bool
      */
-    private function isStraight(array $cardRanksInNumbers): bool
+    private function isStraight(array $cardScores): bool
     {
-        sort($cardRanksInNumbers);
-        return $this->consecutiveNumbers($cardRanksInNumbers);
+        sort($cardScores);
+        return $this->consecutiveNumbers($cardScores);
     }
 
     /**

@@ -22,8 +22,8 @@ class Straight extends AbstractHandType
      */
     public function isMatch(): bool
     {
-        $cardRanksInNumbers = $this->pokerHand->getCardRanksInNumbers();
-        return $this->isStraight($cardRanksInNumbers);
+        $cardScores = $this->pokerHand->getCardScores();
+        return $this->isStraight($cardScores);
     }
 
     /**
