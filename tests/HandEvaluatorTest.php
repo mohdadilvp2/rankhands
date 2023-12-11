@@ -15,7 +15,7 @@ class HandEvaluatorTest extends TestCase
     {
         $this->expectException(Exception::class);
 
-        $evaluator = new HandEvaluator('----');
+        $evaluator = new HandEvaluator('invalid');
         $evaluator->rankHands();
     }
 
